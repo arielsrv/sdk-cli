@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
+version: '3'
+
+tasks:
+
+  download:
+    cmds:
+      - go mod tidy
+
+  upgrade:
+    cmds:
+      - go-mod-upgrade
+
+  lint:
+    cmds:
+      - golangci-lint run --fix
+
+  test:mocks:
+    vars:
+      MOCKERY_FOLDER: pkg/mocks
+    cmds:
+      - mockery --config {{.MOCKERY_FOLDER}}/.mockery.yaml
+
+  test:unit:
+    cmds:
+      - go test ./...
+
+  test:race:
+    cmds:
+      - go test -race ./...
+
+  test:
+    cmds:
+      - task: test:mocks
+      - task: test:unit
+      - task: test:race
+
+  build:
+    vars:
+      VERSION: 0.0.1
+      BIN_PATH: build/main
+      BIN_NAME: sdk-cli
+    cmds:
+      - go build -ldflags "-s -w -X main.version={{.VERSION}}" -o {{.BIN_PATH}}/{{.BIN_NAME}}
+
+  release:
+    cmds:
+      - task: test
+      - task: build

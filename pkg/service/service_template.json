@@ -1,0 +1,14 @@
+[
+  {
+    "name": "backend-sdk-api",
+    "language": "go",
+    "repository_url": "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/backend-api-sdk",
+    "pattern": "go-api"
+  },
+  {
+    "name": "middleend-sdk-api",
+    "language": "node",
+    "repository_url": "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/backend-api-sdk",
+    "pattern": "go-api"
+  }
+]
