@@ -1,14 +1,17 @@
-package service
+package services
 
 import (
+	"cmp"
 	_ "embed"
 	"encoding/json"
+	"slices"
+	"strings"
 
 	"github.com/samber/lo"
 	"github.com/spf13/myapp/pkg/model"
 )
 
-//go:embed service_template.json
+//go:embed template_service.json
 var embeddedBytes []byte
 
 var (
@@ -20,6 +23,10 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
+	slices.SortFunc(templates, func(a, b model.Template) int {
+		return cmp.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+	})
 }
 
 type JSONServiceTemplate struct {
@@ -43,6 +50,10 @@ func (r JSONServiceTemplate) GetAvailableLanguages() []model.Language {
 				Name: item,
 			}
 		})
+
+	slices.SortFunc(result, func(a, b model.Language) int {
+		return cmp.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+	})
 
 	return result
 }
