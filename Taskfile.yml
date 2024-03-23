@@ -1,6 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
 version: '3'
 
+vars:
+  BUILD_PATH: build
+
 tasks:
 
   download:
@@ -35,11 +38,15 @@ tasks:
       - task: test:unit
       - task: test:race
 
+  clean:
+    cmds:
+      - rm -rf {{.BUILD_PATH}}/
+
   build:
     vars:
-      VERSION: 0.0.1
-      BIN_PATH: build/main
+      BIN_PATH: '{{.BUILD_PATH}}/main'
       BIN_NAME: sdk-cli
+      VERSION: 0.0.1
     cmds:
       - go build -ldflags "-s -w -X main.version={{.VERSION}}" -o {{.BIN_PATH}}/{{.BIN_NAME}}
 
