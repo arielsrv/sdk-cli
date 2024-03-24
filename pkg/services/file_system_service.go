@@ -23,6 +23,18 @@ func (r FileSystemService) Walk(sourceDir string, pattern string, name string) e
 		return fmt.Errorf("%s is not a dir", fileInfo.Name())
 	}
 
+	gitDirFolder := filepath.Join(sourceDir, string(os.PathSeparator), ".git/")
+	gitDirInfo, err := os.Stat(gitDirFolder)
+	if err != nil {
+		return err
+	}
+	if gitDirInfo.IsDir() {
+		rErr := os.RemoveAll(gitDirFolder)
+		if rErr != nil {
+			return rErr
+		}
+	}
+
 	err = filepath.Walk(sourceDir, func(path string, fileInfo os.FileInfo, err error) error {
 		if err != nil {
 			return err
