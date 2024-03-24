@@ -8,10 +8,15 @@ import (
 )
 
 type FileSystemService struct {
+	foldersToDelete []string
 }
 
 func NewFileSystemService() *FileSystemService {
-	return &FileSystemService{}
+	return &FileSystemService{
+		foldersToDelete: []string{
+			".git/",
+		},
+	}
 }
 
 func (r FileSystemService) Walk(sourceDir string, pattern string, name string) error {
@@ -23,13 +28,8 @@ func (r FileSystemService) Walk(sourceDir string, pattern string, name string) e
 		return fmt.Errorf("%s is not a dir", fileInfo.Name())
 	}
 
-	gitDirFolder := filepath.Join(sourceDir, string(os.PathSeparator), ".git/")
-	gitDirInfo, err := os.Stat(gitDirFolder)
-	if err != nil {
-		return err
-	}
-	if gitDirInfo.IsDir() {
-		rErr := os.RemoveAll(gitDirFolder)
+	for i := 0; i < len(r.foldersToDelete); i++ {
+		rErr := r.removeDir(sourceDir, r.foldersToDelete[i])
 		if rErr != nil {
 			return rErr
 		}
@@ -45,14 +45,9 @@ func (r FileSystemService) Walk(sourceDir string, pattern string, name string) e
 			if fileErr != nil {
 				return fileErr
 			}
-			bytes, rErr := os.ReadFile(file.Name())
-			if rErr != nil {
-				return rErr
-			}
-			replaced := strings.ReplaceAll(string(bytes), pattern, name)
-			wErr := os.WriteFile(path, []byte(replaced), 0)
-			if wErr != nil {
-				return wErr
+			aErr := r.applyChange(path, file, pattern, name)
+			if aErr != nil {
+				return aErr
 			}
 		}
 
@@ -65,6 +60,35 @@ func (r FileSystemService) Walk(sourceDir string, pattern string, name string) e
 
 	if err = os.Mkdir(name, 0777); err != nil {
 		fmt.Println(err)
+	}
+
+	return nil
+}
+
+func (r FileSystemService) applyChange(path string, file *os.File, pattern string, name string) error {
+	bytes, rErr := os.ReadFile(file.Name())
+	if rErr != nil {
+		return rErr
+	}
+	replaced := strings.ReplaceAll(string(bytes), pattern, name)
+	wErr := os.WriteFile(path, []byte(replaced), 0)
+	if wErr != nil {
+		return wErr
+	}
+	return nil
+}
+
+func (r FileSystemService) removeDir(sourceDir string, dir string) error {
+	dirFolder := filepath.Join(sourceDir, string(os.PathSeparator), dir)
+	fileInfo, sErr := os.Stat(dirFolder)
+	if sErr != nil {
+		return sErr
+	}
+	if fileInfo.IsDir() {
+		rErr := os.RemoveAll(dirFolder)
+		if rErr != nil {
+			return rErr
+		}
 	}
 
 	return nil
