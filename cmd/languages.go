@@ -3,12 +3,11 @@ package cmd
 import (
 	"github.com/fatih/color"
 	"github.com/rodaine/table"
-	"github.com/spf13/myapp/pkg/services"
-
 	"github.com/spf13/cobra"
+	"github.com/spf13/myapp/pkg/services"
 )
 
-// languagesCmd represents the languages command
+// languagesCmd represents the languages command.
 var languagesCmd = &cobra.Command{
 	Use:   "languages",
 	Short: "A brief description of your command",

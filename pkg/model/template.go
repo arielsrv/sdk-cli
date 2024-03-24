@@ -6,4 +6,5 @@ type Template struct {
 	Language      string `json:"language"`
 	RepositoryURL string `json:"repository_url"`
 	Pattern       string `json:"pattern"`
+	Tag           string `json:"tag"`
 }

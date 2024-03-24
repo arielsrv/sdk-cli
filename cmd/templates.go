@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/myapp/pkg/services"
 )
 
-// templatesCmd represents the templates command
+// templatesCmd represents the templates command.
 var templatesCmd = &cobra.Command{
 	Use:   "templates",
 	Short: "A brief description of your command",
