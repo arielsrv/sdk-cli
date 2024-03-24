@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	cp "github.com/otiai10/copy"
 )
 
 type FileSystemService struct {
@@ -59,7 +61,12 @@ func (r FileSystemService) Walk(sourceDir string, pattern string, name string) e
 	}
 
 	if err = os.Mkdir(name, 0777); err != nil {
-		fmt.Println(err)
+		return fmt.Errorf("dir %s is not empty", name)
+	}
+
+	err = cp.Copy(sourceDir, name)
+	if err != nil {
+		return err
 	}
 
 	return nil

@@ -1,6 +1,7 @@
 package services_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/spf13/myapp/pkg/model"
@@ -9,6 +10,9 @@ import (
 )
 
 func TestFileSystemService_Walk(t *testing.T) {
+	appName := "myapp"
+	defer require.NoError(t, os.RemoveAll(appName))
+
 	gitLabService := services.NewGitLabService()
 
 	path, err := gitLabService.Clone(&model.Template{
@@ -21,6 +25,6 @@ func TestFileSystemService_Walk(t *testing.T) {
 
 	treeService := services.NewFileSystemService()
 
-	err = treeService.Walk(*path, "jqlang", "myapp")
+	err = treeService.Walk(*path, "jqlang", appName)
 	require.NoError(t, err)
 }
