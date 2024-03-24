@@ -67,6 +67,54 @@ func (_c *MockTemplateService_GetAvailableLanguages_Call) RunAndReturn(run func(
 	return _c
 }
 
+// GetTemplate provides a mock function with given fields: name
+func (_m *MockTemplateService) GetTemplate(name string) *model.Template {
+	ret := _m.Called(name)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTemplate")
+	}
+
+	var r0 *model.Template
+	if rf, ok := ret.Get(0).(func(string) *model.Template); ok {
+		r0 = rf(name)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Template)
+		}
+	}
+
+	return r0
+}
+
+// MockTemplateService_GetTemplate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTemplate'
+type MockTemplateService_GetTemplate_Call struct {
+	*mock.Call
+}
+
+// GetTemplate is a helper method to define mock.On call
+//   - name string
+func (_e *MockTemplateService_Expecter) GetTemplate(name interface{}) *MockTemplateService_GetTemplate_Call {
+	return &MockTemplateService_GetTemplate_Call{Call: _e.mock.On("GetTemplate", name)}
+}
+
+func (_c *MockTemplateService_GetTemplate_Call) Run(run func(name string)) *MockTemplateService_GetTemplate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string))
+	})
+	return _c
+}
+
+func (_c *MockTemplateService_GetTemplate_Call) Return(_a0 *model.Template) *MockTemplateService_GetTemplate_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockTemplateService_GetTemplate_Call) RunAndReturn(run func(string) *model.Template) *MockTemplateService_GetTemplate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetTemplates provides a mock function with given fields:
 func (_m *MockTemplateService) GetTemplates() []model.Template {
 	ret := _m.Called()

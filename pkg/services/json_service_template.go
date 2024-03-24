@@ -4,6 +4,7 @@ import (
 	"cmp"
 	_ "embed"
 	"encoding/json"
+	"fmt"
 	"slices"
 	"strings"
 
@@ -38,6 +39,18 @@ func NewJSONServiceTemplate() *JSONServiceTemplate {
 
 func (r JSONServiceTemplate) GetTemplates() []model.Template {
 	return templates
+}
+
+func (r JSONServiceTemplate) GetTemplate(name string) (*model.Template, error) {
+	template, found := lo.Find(templates, func(item model.Template) bool {
+		return item.ShortName == name
+	})
+
+	if !found {
+		return nil, fmt.Errorf("template with key %s not found", name)
+	}
+
+	return &template, nil
 }
 
 func (r JSONServiceTemplate) GetAvailableLanguages() []model.Language {

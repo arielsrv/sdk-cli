@@ -3,7 +3,7 @@
     "name": "Backend API SDK",
     "short_name": "backend-api-sdk",
     "language": "go",
-    "repository_url": "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/backend-api-sdk",
+    "repository_url": "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git",
     "pattern": "go-api",
     "tag": "v2.3.14"
   },
@@ -11,7 +11,7 @@
     "name": "Frontend SDK",
     "short_name": "frontend-sdk",
     "language": "node",
-    "repository_url": "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/backend-api-sdk",
+    "repository_url": "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git",
     "pattern": "go-api",
     "tag": "v2.3.14"
   }
