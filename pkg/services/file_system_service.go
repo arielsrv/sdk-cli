@@ -48,6 +48,10 @@ func (r FileSystemService) Walk(sourceDir string, pattern string, name string) e
 	})
 
 	if err != nil {
+		return err
+	}
+
+	if err = os.Mkdir(name, 0777); err != nil {
 		fmt.Println(err)
 	}
 
