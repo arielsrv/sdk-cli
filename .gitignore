@@ -33,3 +33,4 @@ index.scip
 *.pem
 .run
 build/
+sdk-cli

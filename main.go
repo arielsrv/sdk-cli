@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/arielsrv/sdk-cli/cmd"
@@ -8,8 +9,12 @@ import (
 )
 
 func main() {
-	rootCmd := container.Provide[*cmd.RootCommand]()
-	if err := rootCmd.Execute(); err != nil {
+	if err := container.Registry.Invoke(func(rootCmd *cmd.RootCommand) {
+		if err := rootCmd.Execute(); err != nil {
+			os.Exit(1)
+		}
+	}); err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }

@@ -13,6 +13,8 @@ import (
 	"go.uber.org/dig"
 )
 
+var LatestVersion = "0.0.2"
+
 type RootCommand struct {
 	*cobra.Command
 }
@@ -23,8 +25,9 @@ func NewRootCommand(
 	templateCmd *template.Command,
 ) *RootCommand {
 	rootCmd := &cobra.Command{
-		Use:   "sdk-cli",
-		Short: color.HiYellowString("A CLI for IskayPet Apps"),
+		Use:     "sdk-cli",
+		Short:   color.HiYellowString("A CLI for IskayPet Apps"),
+		Version: LatestVersion,
 	}
 
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
