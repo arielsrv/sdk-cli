@@ -13,7 +13,7 @@ import (
 	"go.uber.org/dig"
 )
 
-var LatestVersion = "0.0.2"
+var LatestVersion = "0.0.1"
 
 type RootCommand struct {
 	*cobra.Command
