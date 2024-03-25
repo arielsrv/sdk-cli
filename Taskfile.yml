@@ -43,6 +43,11 @@ tasks:
     cmds:
       - go build
 
+  run:
+    cmds:
+      - task: build
+      - ./sdk-cli{{exeExt}}
+
   release:
     cmds:
       - task: test

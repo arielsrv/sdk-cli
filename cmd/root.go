@@ -26,8 +26,11 @@ func NewRootCommand(
 ) *RootCommand {
 	rootCmd := &cobra.Command{
 		Use:     "sdk-cli",
-		Short:   color.HiYellowString("A CLI for IskayPet Apps"),
+		Short:   color.HiYellowString("A CommandLine Tool to create IskayPet Apps"),
 		Version: LatestVersion,
+		Example: color.HiYellowString("" +
+			"  $ sdk-cli list \n" +
+			"  $ sdk-cli new <template-name> --app-name hello-world"),
 	}
 
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")

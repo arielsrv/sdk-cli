@@ -19,13 +19,13 @@ func NewListCommand(templateService services.TemplateService) *Command {
 			Use:   "list",
 			Short: "List of available templates",
 			Run: func(cmd *cobra.Command, args []string) {
-				templateTable := table.New("Template Name", "Short Name", "Language", "Description").
+				templateTable := table.New("Template Name", "Short Name", "Language", "Version", "Description").
 					WithHeaderFormatter(color.New(color.FgGreen).SprintfFunc())
 
 				templates := templateService.GetTemplates()
 				for i := range templates {
 					template := templates[i]
-					templateTable.AddRow(template.Name, template.ShortName, template.Language, template.Description)
+					templateTable.AddRow(template.Name, template.ShortName, template.Language, template.Tag, template.Description)
 				}
 
 				templateTable.Print()
