@@ -14,12 +14,12 @@ type TreeService interface {
 }
 
 type FileSystemService struct {
-	foldersToDelete []string
+	dirToDelete []string
 }
 
 func NewFileSystemService() *FileSystemService {
 	return &FileSystemService{
-		foldersToDelete: []string{
+		dirToDelete: []string{
 			".git/",
 		},
 	}
@@ -34,8 +34,9 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 		return fmt.Errorf("%s is not a dir", fileInfo.Name())
 	}
 
-	for i := range r.foldersToDelete {
-		err = r.removeDir(sourceDir, r.foldersToDelete[i])
+	for i := range r.dirToDelete {
+		dir := r.dirToDelete[i]
+		err = r.removeDir(sourceDir, dir)
 		if err != nil {
 			return err
 		}
@@ -51,7 +52,7 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 			if fileErr != nil {
 				return fileErr
 			}
-			err = r.applyChange(path, file, pattern, name)
+			err = r.replacePattern(path, file, pattern, name)
 			if err != nil {
 				return err
 			}
@@ -76,7 +77,7 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 	return nil
 }
 
-func (r FileSystemService) applyChange(path string, file *os.File, pattern string, name string) error {
+func (r FileSystemService) replacePattern(path string, file *os.File, pattern string, name string) error {
 	bytes, err := os.ReadFile(file.Name())
 	if err != nil {
 		return err
