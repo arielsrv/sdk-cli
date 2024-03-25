@@ -1,17 +1,17 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/spf13/cobra"
 )
 
 // listCmd represents the list command.
 var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "A brief description of your command",
+	Use:     "list",
+	Short:   "A brief description of your command",
+	Example: "list templates",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("list called")
+		cmd.Println("list called")
+
 	},
 }
 
