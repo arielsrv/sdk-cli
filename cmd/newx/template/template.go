@@ -2,6 +2,7 @@ package template
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"os"
 
 	"github.com/arielsrv/sdk-cli/pkg/services"
@@ -27,8 +28,10 @@ func NewTemplateCommand(templateService services.TemplateService) *Command {
 					fmt.Println(err)
 					os.Exit(1)
 				}
-				fmt.Printf("Template %s created\n", appName)
-				fmt.Printf("Please execute cd %s\n", appName)
+				fmt.Println()
+				color.HiGreenString("Template %s created\n", appName)
+				fmt.Println()
+				fmt.Printf("  $ cd %s\n", appName)
 				fmt.Println()
 			},
 		}
