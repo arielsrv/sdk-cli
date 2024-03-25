@@ -18,8 +18,8 @@ func TestJSONServiceTemplate_GetTemplates(t *testing.T) {
 	actual := serviceTemplate.GetTemplates()
 
 	assert.Len(t, actual, 1)
-	assert.Equal(t, "Backend API SDK", actual[0].Name)
-	assert.Equal(t, "backend-api-sdk", actual[0].ShortName)
+	assert.Equal(t, "Golang API", actual[0].Name)
+	assert.Equal(t, "go-api", actual[0].ShortName)
 	assert.Equal(t, "go", actual[0].Language)
 	assert.Equal(t, "go-api", actual[0].Pattern)
 	assert.Equal(t, "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git", actual[0].RepositoryURL)
@@ -40,8 +40,9 @@ func TestJSONTemplateService_CreateTemplate(t *testing.T) {
 	gitlabService := mocks.NewMockGitService(t)
 	path := "/path/to/template"
 	gitlabService.EXPECT().Clone(&model.Template{
-		Name:          "Backend API SDK",
-		ShortName:     "backend-api-sdk",
+		Name:          "Golang API",
+		ShortName:     "go-api",
+		Description:   "Golang API from Backend API SDK w/kubernetes, docker and prometheus monitoring",
 		Language:      "go",
 		RepositoryURL: "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git",
 		Pattern:       "go-api",
@@ -53,6 +54,6 @@ func TestJSONTemplateService_CreateTemplate(t *testing.T) {
 
 	serviceTemplate := services.NewJSONTemplateService(gitlabService, fileSystemService)
 
-	err := serviceTemplate.CreateTemplate("backend-api-sdk", "hello-api")
+	err := serviceTemplate.CreateTemplate("go-api", "hello-api")
 	require.NoError(t, err)
 }

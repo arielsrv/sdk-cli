@@ -87,7 +87,6 @@ func (r JSONTemplateService) GetAvailableLanguages() []model.Language {
 }
 
 func (r JSONTemplateService) CreateTemplate(templateName string, appName string) error {
-
 	template, err := r.GetTemplate(templateName)
 	if err != nil {
 		return err
