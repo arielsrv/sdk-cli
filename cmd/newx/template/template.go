@@ -2,8 +2,9 @@ package template
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"os"
+
+	"github.com/fatih/color"
 
 	"github.com/arielsrv/sdk-cli/pkg/services"
 	"github.com/spf13/cobra"

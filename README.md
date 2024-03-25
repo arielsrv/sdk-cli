@@ -16,7 +16,7 @@ applications.
 ## Install `sdk-cli`
 
 ```shell
-$ go install gitlab.com/iskaypetcom/digital/sre/tools/dev/sdk-cli
+$ go install gitlab.com/iskaypetcom/digital/sre/tools/dev/sdk-cli@latest
 ```
 
 ```shell
