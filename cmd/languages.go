@@ -1,11 +1,11 @@
 package cmd
 
 import (
+	"github.com/arielsrv/sdk-cli/pkg/container"
+	"github.com/arielsrv/sdk-cli/pkg/services"
 	"github.com/fatih/color"
 	"github.com/rodaine/table"
 	"github.com/spf13/cobra"
-	"github.com/spf13/myapp/pkg/container"
-	"github.com/spf13/myapp/pkg/services"
 )
 
 // languagesCmd represents the languages command.

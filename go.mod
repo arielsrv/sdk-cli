@@ -1,4 +1,4 @@
-module github.com/spf13/myapp
+module github.com/arielsrv/sdk-cli
 
 go 1.22
 

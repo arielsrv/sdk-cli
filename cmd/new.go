@@ -3,9 +3,9 @@ package cmd
 import (
 	"log"
 
+	"github.com/arielsrv/sdk-cli/pkg/container"
+	"github.com/arielsrv/sdk-cli/pkg/services"
 	"github.com/spf13/cobra"
-	"github.com/spf13/myapp/pkg/container"
-	"github.com/spf13/myapp/pkg/services"
 )
 
 // newCmd represents the new command.

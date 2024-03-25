@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/spf13/myapp/pkg/model"
-	"github.com/spf13/myapp/pkg/services"
+	"github.com/arielsrv/sdk-cli/pkg/model"
+	"github.com/arielsrv/sdk-cli/pkg/services"
 	"github.com/stretchr/testify/require"
 )
 

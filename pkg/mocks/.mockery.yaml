@@ -6,7 +6,7 @@ all: True
 disable-version-string: True
 with-expecter: True
 packages:
-  github.com/spf13/myapp:
+  github.com/arielsrv/sdk-cli:
     config:
       recursive: True
 log-level: Warn

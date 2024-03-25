@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/spf13/myapp/cmd"
-	"github.com/spf13/myapp/pkg/container"
-	"github.com/spf13/myapp/pkg/services"
+	"github.com/arielsrv/sdk-cli/cmd"
+	"github.com/arielsrv/sdk-cli/pkg/container"
+	"github.com/arielsrv/sdk-cli/pkg/services"
 	"go.uber.org/dig"
 )
 

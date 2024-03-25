@@ -3,7 +3,7 @@
 package services
 
 import (
-	model "github.com/spf13/myapp/pkg/model"
+	model "github.com/arielsrv/sdk-cli/pkg/model"
 	mock "github.com/stretchr/testify/mock"
 )
 

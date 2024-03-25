@@ -3,9 +3,9 @@ package services
 import (
 	"os"
 
+	"github.com/arielsrv/sdk-cli/pkg/model"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
-	"github.com/spf13/myapp/pkg/model"
 )
 
 type GitLabService struct {

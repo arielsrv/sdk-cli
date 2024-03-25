@@ -8,8 +8,8 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/arielsrv/sdk-cli/pkg/model"
 	"github.com/samber/lo"
-	"github.com/spf13/myapp/pkg/model"
 )
 
 //go:embed template_service.json

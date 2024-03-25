@@ -3,7 +3,7 @@ package services_test
 import (
 	"testing"
 
-	"github.com/spf13/myapp/pkg/services"
+	"github.com/arielsrv/sdk-cli/pkg/services"
 	"github.com/stretchr/testify/assert"
 )
 
