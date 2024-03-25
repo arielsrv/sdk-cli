@@ -4,6 +4,8 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/arielsrv/sdk-cli/pkg/container"
+	"go.uber.org/dig"
 	"log"
 	"os"
 
@@ -18,12 +20,20 @@ type RootCommand struct {
 	*cobra.Command
 }
 
-func NewRootCommand() *RootCommand {
+func NewRootCommand(listCmd *ListCommand, newCmd *NewCommand, templateCmd *TemplateCommand) *RootCommand {
 	rootCmd := &cobra.Command{
 		Use:   "sdk-cli",
 		Short: "A CLI for IskayPet Apps",
 	}
+
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	for i := range templateCmd.Commands {
+		newCmd.AddCommand(templateCmd.Commands[i])
+	}
+
+	rootCmd.AddCommand(listCmd.Command)
+	rootCmd.AddCommand(newCmd.Command)
 
 	return &RootCommand{
 		Command: rootCmd,
@@ -114,4 +124,17 @@ func NewTemplateCommand(templateService services.TemplateService) *TemplateComma
 	return &TemplateCommand{
 		Commands: commands,
 	}
+}
+
+func init() {
+	// services
+	container.Inject(services.NewGitLabService, dig.As(new(services.GitService)))
+	container.Inject(services.NewFileSystemService, dig.As(new(services.TreeService)))
+	container.Inject(services.NewJSONTemplateService, dig.As(new(services.TemplateService)))
+
+	// commands
+	container.Inject(NewListCommand)
+	container.Inject(NewNewCommand)
+	container.Inject(NewTemplateCommand)
+	container.Inject(NewRootCommand)
 }
