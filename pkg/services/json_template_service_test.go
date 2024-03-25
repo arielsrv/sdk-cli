@@ -17,7 +17,7 @@ func TestJSONServiceTemplate_GetTemplates(t *testing.T) {
 
 	actual := serviceTemplate.GetTemplates()
 
-	assert.Len(t, actual, 1)
+	assert.Len(t, actual, 2)
 	assert.Equal(t, "Golang API", actual[0].Name)
 	assert.Equal(t, "go-api", actual[0].ShortName)
 	assert.Equal(t, "go", actual[0].Language)

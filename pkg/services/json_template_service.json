@@ -7,5 +7,14 @@
     "repository_url": "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git",
     "pattern": "go-api",
     "tag": "v2.3.14"
+  },
+  {
+    "name": "SSR Frontend",
+    "short_name": "react-frontend",
+    "description": "Frontend w/kubernetes, docker and prometheus monitoring",
+    "language": "react",
+    "repository_url": "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git",
+    "pattern": "ssr-frontend",
+    "tag": "v1.2.5"
   }
 ]
