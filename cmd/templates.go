@@ -21,7 +21,11 @@ to quickly create a Cobra application.`,
 		table := table.New("Template Name", "Short Name", "Language").
 			WithHeaderFormatter(color.New(color.FgGreen).SprintfFunc())
 
-		templates := services.NewJSONServiceTemplate().GetTemplates()
+		gitlabService := services.NewGitLabService()
+		fileSystemService := services.NewFileSystemService()
+		serviceTemplate := services.NewJSONServiceTemplate(gitlabService, fileSystemService)
+
+		templates := serviceTemplate.GetTemplates()
 		for _, template := range templates {
 			table.AddRow(template.Name, template.ShortName, template.Language)
 		}

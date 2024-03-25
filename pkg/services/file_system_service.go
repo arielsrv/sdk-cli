@@ -21,7 +21,7 @@ func NewFileSystemService() *FileSystemService {
 	}
 }
 
-func (r FileSystemService) Walk(sourceDir string, pattern string, name string) error {
+func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string) error {
 	fileInfo, err := os.Stat(sourceDir)
 	if err != nil {
 		return err

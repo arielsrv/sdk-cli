@@ -31,10 +31,18 @@ func init() {
 }
 
 type JSONServiceTemplate struct {
+	gitlabService     GitService
+	fileSystemService TreeService
 }
 
-func NewJSONServiceTemplate() *JSONServiceTemplate {
-	return &JSONServiceTemplate{}
+func NewJSONServiceTemplate(
+	gitlabService GitService,
+	fileSystemService TreeService,
+) *JSONServiceTemplate {
+	return &JSONServiceTemplate{
+		gitlabService:     gitlabService,
+		fileSystemService: fileSystemService,
+	}
 }
 
 func (r JSONServiceTemplate) GetTemplates() []model.Template {
@@ -69,4 +77,23 @@ func (r JSONServiceTemplate) GetAvailableLanguages() []model.Language {
 	})
 
 	return result
+}
+
+func (r JSONServiceTemplate) CreateTemplate(templateName string, appName string) error {
+	template, err := r.GetTemplate(templateName)
+	if err != nil {
+		return err
+	}
+
+	path, err := r.gitlabService.Clone(template)
+	if err != nil {
+		return err
+	}
+
+	err = r.fileSystemService.WalkDir(*path, template.Pattern, appName)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

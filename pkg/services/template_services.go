@@ -6,4 +6,5 @@ type TemplateService interface {
 	GetTemplates() []model.Template
 	GetAvailableLanguages() []model.Language
 	GetTemplate(name string) *model.Template
+	CreateTemplate(templateName string, appName string) error
 }

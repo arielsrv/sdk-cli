@@ -25,6 +25,6 @@ func TestFileSystemService_Walk(t *testing.T) {
 
 	treeService := services.NewFileSystemService()
 
-	err = treeService.Walk(*path, "jqlang", appName)
+	err = treeService.WalkDir(*path, "jqlang", appName)
 	require.NoError(t, err)
 }

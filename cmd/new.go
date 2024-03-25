@@ -23,24 +23,16 @@ to quickly create a Cobra application.`,
 			log.Fatal(err)
 		}
 
-		serviceTemplate := services.NewJSONServiceTemplate()
-		template, err := serviceTemplate.GetTemplate(templateName)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		gitService := services.NewGitLabService()
-		path, err := gitService.Clone(template)
-		if err != nil {
-			log.Fatal(err)
-		}
-
 		appName, err := cmd.Flags().GetString("appName")
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		gitlabService := services.NewGitLabService()
 		fileSystemService := services.NewFileSystemService()
-		err = fileSystemService.Walk(*path, template.Pattern, appName)
+		serviceTemplate := services.NewJSONServiceTemplate(gitlabService, fileSystemService)
+
+		err = serviceTemplate.CreateTemplate(templateName, appName)
 		if err != nil {
 			log.Fatal(err)
 		}
