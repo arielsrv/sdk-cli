@@ -3,6 +3,7 @@ version: '3'
 
 vars:
   BUILD_PATH: build
+  GOEXPERIMENT: nocoverageredesign
 
 tasks:
 
