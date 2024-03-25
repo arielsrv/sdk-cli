@@ -3,12 +3,13 @@
 package cmd
 
 import (
+	"log"
+	"os"
+
 	"github.com/arielsrv/sdk-cli/pkg/container"
 	"github.com/arielsrv/sdk-cli/pkg/services"
 	"github.com/fatih/color"
 	"github.com/rodaine/table"
-	"log"
-	"os"
 
 	"github.com/spf13/cobra"
 )
