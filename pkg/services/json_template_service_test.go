@@ -3,7 +3,6 @@ package services_test
 import (
 	"testing"
 
-
 	mocks "github.com/arielsrv/sdk-cli/pkg/mocks/pkg/services"
 	"github.com/arielsrv/sdk-cli/pkg/model"
 	"github.com/arielsrv/sdk-cli/pkg/services"

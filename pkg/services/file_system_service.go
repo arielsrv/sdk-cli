@@ -34,7 +34,7 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 		return fmt.Errorf("%s is not a dir", fileInfo.Name())
 	}
 
-	for i := 0; i < len(r.foldersToDelete); i++ {
+	for i := range r.foldersToDelete {
 		err = r.removeDir(sourceDir, r.foldersToDelete[i])
 		if err != nil {
 			return err
@@ -83,7 +83,7 @@ func (r FileSystemService) applyChange(path string, file *os.File, pattern strin
 	}
 
 	replaced := strings.ReplaceAll(string(bytes), pattern, name)
-	err = os.WriteFile(path, []byte(replaced), 0777)
+	err = os.WriteFile(path, []byte(replaced), 0600)
 	if err != nil {
 		return err
 	}
