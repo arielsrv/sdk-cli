@@ -83,7 +83,7 @@ func (r FileSystemService) applyChange(path string, file *os.File, pattern strin
 	}
 
 	replaced := strings.ReplaceAll(string(bytes), pattern, name)
-	err = os.WriteFile(path, []byte(replaced), 0)
+	err = os.WriteFile(path, []byte(replaced), 0777)
 	if err != nil {
 		return err
 	}
