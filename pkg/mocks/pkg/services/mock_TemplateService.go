@@ -20,6 +20,53 @@ func (_m *MockTemplateService) EXPECT() *MockTemplateService_Expecter {
 	return &MockTemplateService_Expecter{mock: &_m.Mock}
 }
 
+// CreateTemplate provides a mock function with given fields: templateName, appName
+func (_m *MockTemplateService) CreateTemplate(templateName string, appName string) error {
+	ret := _m.Called(templateName, appName)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateTemplate")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, string) error); ok {
+		r0 = rf(templateName, appName)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockTemplateService_CreateTemplate_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateTemplate'
+type MockTemplateService_CreateTemplate_Call struct {
+	*mock.Call
+}
+
+// CreateTemplate is a helper method to define mock.On call
+//   - templateName string
+//   - appName string
+func (_e *MockTemplateService_Expecter) CreateTemplate(templateName interface{}, appName interface{}) *MockTemplateService_CreateTemplate_Call {
+	return &MockTemplateService_CreateTemplate_Call{Call: _e.mock.On("CreateTemplate", templateName, appName)}
+}
+
+func (_c *MockTemplateService_CreateTemplate_Call) Run(run func(templateName string, appName string)) *MockTemplateService_CreateTemplate_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string), args[1].(string))
+	})
+	return _c
+}
+
+func (_c *MockTemplateService_CreateTemplate_Call) Return(_a0 error) *MockTemplateService_CreateTemplate_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockTemplateService_CreateTemplate_Call) RunAndReturn(run func(string, string) error) *MockTemplateService_CreateTemplate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetAvailableLanguages provides a mock function with given fields:
 func (_m *MockTemplateService) GetAvailableLanguages() []model.Language {
 	ret := _m.Called()
