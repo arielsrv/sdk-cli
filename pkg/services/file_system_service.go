@@ -31,9 +31,9 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 	}
 
 	for i := 0; i < len(r.foldersToDelete); i++ {
-		rErr := r.removeDir(sourceDir, r.foldersToDelete[i])
-		if rErr != nil {
-			return rErr
+		err = r.removeDir(sourceDir, r.foldersToDelete[i])
+		if err != nil {
+			return err
 		}
 	}
 
@@ -47,9 +47,9 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 			if fileErr != nil {
 				return fileErr
 			}
-			aErr := r.applyChange(path, file, pattern, name)
-			if aErr != nil {
-				return aErr
+			err = r.applyChange(path, file, pattern, name)
+			if err != nil {
+				return err
 			}
 		}
 
@@ -73,28 +73,31 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 }
 
 func (r FileSystemService) applyChange(path string, file *os.File, pattern string, name string) error {
-	bytes, rErr := os.ReadFile(file.Name())
-	if rErr != nil {
-		return rErr
+	bytes, err := os.ReadFile(file.Name())
+	if err != nil {
+		return err
 	}
+
 	replaced := strings.ReplaceAll(string(bytes), pattern, name)
-	wErr := os.WriteFile(path, []byte(replaced), 0)
-	if wErr != nil {
-		return wErr
+	err = os.WriteFile(path, []byte(replaced), 0)
+	if err != nil {
+		return err
 	}
+
 	return nil
 }
 
 func (r FileSystemService) removeDir(sourceDir string, dir string) error {
 	dirFolder := filepath.Join(sourceDir, string(os.PathSeparator), dir)
-	fileInfo, sErr := os.Stat(dirFolder)
-	if sErr != nil {
-		return sErr
+	fileInfo, err := os.Stat(dirFolder)
+	if err != nil {
+		return err
 	}
+
 	if fileInfo.IsDir() {
-		rErr := os.RemoveAll(dirFolder)
-		if rErr != nil {
-			return rErr
+		err = os.RemoveAll(dirFolder)
+		if err != nil {
+			return err
 		}
 	}
 
