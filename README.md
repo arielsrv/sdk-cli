@@ -10,7 +10,8 @@ applications.
 
 
 ## Requirements
-Auth by SSH (for now)
+* [Golang](https://go.dev/doc/install)
+* [SSH Keys](https://docs.gitlab.com/ee/user/ssh.html)
 
 ## Install `sdk-cli`
 
