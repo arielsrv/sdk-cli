@@ -8,6 +8,10 @@ import (
 	"github.com/go-git/go-git/v5/plumbing"
 )
 
+type GitService interface {
+	Clone(template *model.Template) (*string, error)
+}
+
 type GitLabService struct {
 	tempDirPattern string
 }

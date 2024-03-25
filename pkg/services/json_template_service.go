@@ -30,6 +30,13 @@ func init() {
 	})
 }
 
+type TemplateService interface {
+	GetTemplates() []model.Template
+	GetAvailableLanguages() []model.Language
+	GetTemplate(name string) (*model.Template, error)
+	CreateTemplate(templateName string, appName string) error
+}
+
 type JSONTemplateService struct {
 	gitlabService     GitService
 	fileSystemService TreeService

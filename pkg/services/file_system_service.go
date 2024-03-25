@@ -9,6 +9,10 @@ import (
 	cp "github.com/otiai10/copy"
 )
 
+type TreeService interface {
+	WalkDir(sourceDir string, pattern string, name string) error
+}
+
 type FileSystemService struct {
 	foldersToDelete []string
 }
