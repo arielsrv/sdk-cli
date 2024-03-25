@@ -16,51 +16,22 @@ import (
 // rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
 	Use:   "sdk-cli",
-	Short: "A brief description of your application",
+	Short: "A CLI for IskayPet Apps",
 }
 
 var listCmd = &cobra.Command{
-	Use:     "list",
-	Short:   "A brief description of your command",
-	Example: "list templates",
+	Use:   "list",
+	Short: "List of available templates",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Println("list called")
-
-	},
-}
-
-// templatesCmd represents the templates command.
-var templatesCmd = &cobra.Command{
-	Use:   "templates",
-	Short: "A brief description of your command",
-	Run: func(cmd *cobra.Command, args []string) {
-		table := table.New("Template Name", "Short Name", "Language").
+		table := table.New("Template Name", "Short Name", "Language", "Description").
 			WithHeaderFormatter(color.New(color.FgGreen).SprintfFunc())
 
 		serviceTemplate := container.Provide[services.TemplateService]()
 
 		templates := serviceTemplate.GetTemplates()
-		for _, template := range templates {
-			table.AddRow(template.Name, template.ShortName, template.Language)
-		}
-
-		table.Print()
-	},
-}
-
-// languagesCmd represents the languages command.
-var languagesCmd = &cobra.Command{
-	Use:   "languages",
-	Short: "A brief description of your command",
-	Run: func(cmd *cobra.Command, args []string) {
-		table := table.New("Language").
-			WithHeaderFormatter(color.New(color.FgGreen).SprintfFunc())
-
-		serviceTemplate := container.Provide[services.TemplateService]()
-
-		languages := serviceTemplate.GetAvailableLanguages()
-		for _, template := range languages {
-			table.AddRow(template.Name)
+		for i := range templates {
+			template := templates[i]
+			table.AddRow(template.Name, template.ShortName, template.Language, template.Description)
 		}
 
 		table.Print()
@@ -70,7 +41,7 @@ var languagesCmd = &cobra.Command{
 // newCmd represents the new command.
 var newCmd = &cobra.Command{
 	Use:   "new",
-	Short: "A brief description of your command",
+	Short: "Creates a new app from template",
 	Run: func(cmd *cobra.Command, args []string) {
 		templateName, err := cmd.Flags().GetString("template")
 		if err != nil {
@@ -92,13 +63,31 @@ var newCmd = &cobra.Command{
 }
 
 func Execute() {
-	newCmd.PersistentFlags().String("app-name", "", "an app name to create from template and put in target dir")
-	newCmd.PersistentFlags().String("template", "", "execute sdk-cli list templates for available templates")
+	serviceTemplate := container.Provide[services.TemplateService]()
+	templates := serviceTemplate.GetTemplates()
+	for i := range templates {
+		template := templates[i]
+		templateCmd := &cobra.Command{
+			Use:   template.ShortName,
+			Short: template.Description,
+			Run: func(cmd *cobra.Command, args []string) {
+				appName, err := cmd.Flags().GetString("app-name")
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				err = serviceTemplate.CreateTemplate(template.ShortName, appName)
+				if err != nil {
+					log.Fatal(err)
+				}
+			},
+		}
+		newCmd.PersistentFlags().String("app-name", "", "an app name to create from template and put in target dir")
+		newCmd.AddCommand(templateCmd)
+	}
 
 	rootCmd.AddCommand(newCmd)
 	rootCmd.AddCommand(listCmd)
-	listCmd.AddCommand(templatesCmd)
-	listCmd.AddCommand(languagesCmd)
 
 	err := rootCmd.Execute()
 	if err != nil {

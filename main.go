@@ -8,6 +8,9 @@ import (
 )
 
 func main() {
+	// commands
+
+	// services
 	container.Inject(services.NewGitLabService, dig.As(new(services.GitService)))
 	container.Inject(services.NewFileSystemService, dig.As(new(services.TreeService)))
 	container.Inject(services.NewJSONTemplateService, dig.As(new(services.TemplateService)))

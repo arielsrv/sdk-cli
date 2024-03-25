@@ -12,7 +12,7 @@ import (
 	"github.com/samber/lo"
 )
 
-//go:embed template_service.json
+//go:embed json_template_service.json
 var embeddedBytes []byte
 
 var (
