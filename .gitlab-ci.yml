@@ -11,17 +11,8 @@ default:
     - kubernetes-executor
 
 before_script:
+  - chmod -R 755 .gitlab
   - if [ -d "$HOME" ]; then echo "machine gitlab.com login master_token password $GITLAB_TOKEN" > "$HOME/.netrc"; fi
-
-.go-cache:
-  variables:
-    GOPATH: $CI_PROJECT_DIR/.go
-  before_script:
-    - if [ -d "$HOME" ]; then echo "machine gitlab.com login master_token password $GITLAB_TOKEN" > "$HOME/.netrc"; fi
-    - mkdir -p .go
-  cache:
-    paths:
-      - .go/pkg/mod/
 
 stages:
   - build
@@ -29,7 +20,6 @@ stages:
 
 compile:
   stage: build
-  extends: .go-cache
   script:
     - go mod tidy
     - go build -v ./...
@@ -41,7 +31,6 @@ unit:
   stage: test
   needs:
     - compile
-  extends: .go-cache
   variables:
     output: report.xml
   script:
@@ -57,7 +46,6 @@ unit:
 
 coverage:
   stage: test
-  extends: .go-cache
   variables:
     output: coverage-report.out
     html: coverage-report.html
@@ -75,7 +63,6 @@ coverage:
 
 coverage-report:
   stage: test
-  extends: .go-cache
   script:
     - GOEXPERIMENT=nocoverageredesign go test ./... -coverprofile=coverage.txt -covermode count
     - go get github.com/boumenot/gocover-cobertura
@@ -91,7 +78,6 @@ coverage-report:
 
 race:
   stage: test
-  extends: .go-cache
   needs:
     - compile
   script:
@@ -102,7 +88,6 @@ race:
 
 lint:
   stage: test
-  extends: .go-cache
   variables:
     output: gl-code-quality-report.json
   script:
