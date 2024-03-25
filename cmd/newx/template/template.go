@@ -30,10 +30,9 @@ func NewTemplateCommand(templateService services.TemplateService) *Command {
 					os.Exit(1)
 				}
 				fmt.Println()
-				color.HiGreenString("Template %s created\n", appName)
+				color.HiGreenString("Template %s was created\n", appName)
 				fmt.Println()
 				fmt.Printf("  $ cd %s\n", appName)
-				fmt.Println()
 			},
 		}
 		templateCmd.PersistentFlags().StringVarP(&appName, "app-name", "", "", "an application name")
