@@ -30,26 +30,26 @@ func init() {
 	})
 }
 
-type JSONServiceTemplate struct {
+type JSONTemplateService struct {
 	gitlabService     GitService
 	fileSystemService TreeService
 }
 
-func NewJSONServiceTemplate(
+func NewJSONTemplateService(
 	gitlabService GitService,
 	fileSystemService TreeService,
-) *JSONServiceTemplate {
-	return &JSONServiceTemplate{
+) *JSONTemplateService {
+	return &JSONTemplateService{
 		gitlabService:     gitlabService,
 		fileSystemService: fileSystemService,
 	}
 }
 
-func (r JSONServiceTemplate) GetTemplates() []model.Template {
+func (r JSONTemplateService) GetTemplates() []model.Template {
 	return templates
 }
 
-func (r JSONServiceTemplate) GetTemplate(name string) (*model.Template, error) {
+func (r JSONTemplateService) GetTemplate(name string) (*model.Template, error) {
 	template, found := lo.Find(templates, func(item model.Template) bool {
 		return item.ShortName == name
 	})
@@ -61,7 +61,7 @@ func (r JSONServiceTemplate) GetTemplate(name string) (*model.Template, error) {
 	return &template, nil
 }
 
-func (r JSONServiceTemplate) GetAvailableLanguages() []model.Language {
+func (r JSONTemplateService) GetAvailableLanguages() []model.Language {
 	result := lo.Map(
 		lo.Keys(
 			lo.GroupBy(templates, func(item model.Template) string {
@@ -79,7 +79,7 @@ func (r JSONServiceTemplate) GetAvailableLanguages() []model.Language {
 	return result
 }
 
-func (r JSONServiceTemplate) CreateTemplate(templateName string, appName string) error {
+func (r JSONTemplateService) CreateTemplate(templateName string, appName string) error {
 	template, err := r.GetTemplate(templateName)
 	if err != nil {
 		return err

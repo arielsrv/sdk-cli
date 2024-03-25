@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/myapp/pkg/container"
 	"github.com/spf13/myapp/pkg/services"
 )
 
@@ -28,9 +29,7 @@ to quickly create a Cobra application.`,
 			log.Fatal(err)
 		}
 
-		gitlabService := services.NewGitLabService()
-		fileSystemService := services.NewFileSystemService()
-		serviceTemplate := services.NewJSONServiceTemplate(gitlabService, fileSystemService)
+		serviceTemplate := container.Provide[services.TemplateService]()
 
 		err = serviceTemplate.CreateTemplate(templateName, appName)
 		if err != nil {

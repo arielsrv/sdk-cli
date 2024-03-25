@@ -10,7 +10,7 @@ import (
 func TestJSONServiceTemplate_GetTemplates(t *testing.T) {
 	gitlabService := services.NewGitLabService()
 	fileSystemService := services.NewFileSystemService()
-	serviceTemplate := services.NewJSONServiceTemplate(gitlabService, fileSystemService)
+	serviceTemplate := services.NewJSONTemplateService(gitlabService, fileSystemService)
 
 	actual := serviceTemplate.GetTemplates()
 
@@ -26,7 +26,7 @@ func TestJSONServiceTemplate_GetTemplates(t *testing.T) {
 func TestJSONServiceTemplate_GetAvailableLanguages(t *testing.T) {
 	gitlabService := services.NewGitLabService()
 	fileSystemService := services.NewFileSystemService()
-	serviceTemplate := services.NewJSONServiceTemplate(gitlabService, fileSystemService)
+	serviceTemplate := services.NewJSONTemplateService(gitlabService, fileSystemService)
 	actual := serviceTemplate.GetAvailableLanguages()
 
 	assert.GreaterOrEqual(t, len(actual), 1)

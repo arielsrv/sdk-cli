@@ -4,6 +4,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/rodaine/table"
 	"github.com/spf13/cobra"
+	"github.com/spf13/myapp/pkg/container"
 	"github.com/spf13/myapp/pkg/services"
 )
 
@@ -21,9 +22,7 @@ to quickly create a Cobra application.`,
 		table := table.New("Language").
 			WithHeaderFormatter(color.New(color.FgGreen).SprintfFunc())
 
-		gitlabService := services.NewGitLabService()
-		fileSystemService := services.NewFileSystemService()
-		serviceTemplate := services.NewJSONServiceTemplate(gitlabService, fileSystemService)
+		serviceTemplate := container.Provide[services.TemplateService]()
 
 		languages := serviceTemplate.GetAvailableLanguages()
 		for _, template := range languages {
