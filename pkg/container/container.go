@@ -6,6 +6,8 @@ import (
 	"go.uber.org/dig"
 )
 
+var Registry = dig.New()
+
 func Provide[T any]() T {
 	var instance T
 	if err := Registry.Invoke(func(controller T) {
@@ -16,8 +18,6 @@ func Provide[T any]() T {
 
 	return instance
 }
-
-var Registry = dig.New()
 
 func Inject(constructor interface{}, opts ...dig.ProvideOption) {
 	if err := Registry.Provide(constructor, opts...); err != nil {

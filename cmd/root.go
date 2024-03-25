@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/arielsrv/sdk-cli/pkg/container"
 	"github.com/arielsrv/sdk-cli/pkg/services"
 	"github.com/fatih/color"
 	"github.com/rodaine/table"
@@ -15,54 +14,78 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands.
-var rootCmd = &cobra.Command{
-	Use:   "sdk-cli",
-	Short: "A CLI for IskayPet Apps",
+type RootCommand struct {
+	*cobra.Command
 }
 
-var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "List of available templates",
-	Run: func(cmd *cobra.Command, args []string) {
-		table := table.New("Template Name", "Short Name", "Language", "Description").
-			WithHeaderFormatter(color.New(color.FgGreen).SprintfFunc())
+func NewRootCommand() *RootCommand {
+	rootCmd := &cobra.Command{
+		Use:   "sdk-cli",
+		Short: "A CLI for IskayPet Apps",
+	}
+	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-		serviceTemplate := container.Provide[services.TemplateService]()
-
-		templates := serviceTemplate.GetTemplates()
-		for i := range templates {
-			template := templates[i]
-			table.AddRow(template.Name, template.ShortName, template.Language, template.Description)
-		}
-
-		table.Print()
-	},
+	return &RootCommand{
+		Command: rootCmd,
+	}
 }
 
-// newCmd represents the new command.
-var newCmd = &cobra.Command{
-	Use:   "new",
-	Short: "Creates a new app from short template name",
-	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) == 0 {
-			fmt.Println("Please provide a short template name")
-			return
-		}
-		serviceTemplate := container.Provide[services.TemplateService]()
-		template, err := serviceTemplate.GetTemplate(args[0])
-		if err != nil {
-			fmt.Printf("Template %s not found\n", args[0])
-			fmt.Printf("Please execute sdk-cli list to see available templates\n")
-			return
-		}
-		fmt.Printf("Template %s found, creating ...\n", template.Name)
-	},
+type ListCommand struct {
+	*cobra.Command
 }
 
-func Execute() {
-	serviceTemplate := container.Provide[services.TemplateService]()
-	templates := serviceTemplate.GetTemplates()
+func NewListCommand(templateService services.TemplateService) *ListCommand {
+	return &ListCommand{
+		Command: &cobra.Command{
+			Use:   "list",
+			Short: "List of available templates",
+			Run: func(cmd *cobra.Command, args []string) {
+				templateTable := table.New("Template Name", "Short Name", "Language", "Description").
+					WithHeaderFormatter(color.New(color.FgGreen).SprintfFunc())
+
+				templates := templateService.GetTemplates()
+				for i := range templates {
+					template := templates[i]
+					templateTable.AddRow(template.Name, template.ShortName, template.Language, template.Description)
+				}
+
+				templateTable.Print()
+			},
+		},
+	}
+}
+
+type NewCommand struct {
+	*cobra.Command
+}
+
+func NewNewCommand(templateService services.TemplateService) *NewCommand {
+	return &NewCommand{Command: &cobra.Command{
+		Use:   "new",
+		Short: "Creates a new app from short template name",
+		Run: func(cmd *cobra.Command, args []string) {
+			if len(args) == 0 {
+				fmt.Println("Please provide a short template name")
+				return
+			}
+			template, err := templateService.GetTemplate(args[0])
+			if err != nil {
+				fmt.Printf("Template %s not found\n", args[0])
+				fmt.Printf("Please execute sdk-cli list to see available templates\n")
+				return
+			}
+			fmt.Printf("Template %s found, creating ...\n", template.Name)
+		},
+	}}
+}
+
+type TemplateCommand struct {
+	Commands []*cobra.Command
+}
+
+func NewTemplateCommand(templateService services.TemplateService) *TemplateCommand {
+	templates := templateService.GetTemplates()
+	var commands []*cobra.Command
 	for i := range templates {
 		template := templates[i]
 		var appName string
@@ -70,32 +93,25 @@ func Execute() {
 			Use: template.ShortName,
 			Run: func(cmd *cobra.Command, args []string) {
 				fmt.Printf("Template %s found, creating ...\n", template.ShortName)
-				err := serviceTemplate.CreateTemplate(template.ShortName, appName)
+				err := templateService.CreateTemplate(template.ShortName, appName)
 				if err != nil {
-					log.Fatal(err)
+					fmt.Println(err)
+					os.Exit(1)
 				}
 				fmt.Printf("Template %s created\n", appName)
 				fmt.Printf("Please execute cd %s\n", appName)
 				fmt.Println()
 			},
 		}
-		templateCmd.PersistentFlags().StringVarP(&appName, "app-name", "a", "", "an app name to create from template and put in target dir")
+		templateCmd.PersistentFlags().StringVarP(&appName, "app-name", "", "", "an application name")
 		err := templateCmd.MarkPersistentFlagRequired("app-name")
 		if err != nil {
 			log.Fatal(err)
 		}
-		newCmd.AddCommand(templateCmd)
+		commands = append(commands, templateCmd)
 	}
 
-	rootCmd.AddCommand(newCmd)
-	rootCmd.AddCommand(listCmd)
-
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
+	return &TemplateCommand{
+		Commands: commands,
 	}
-}
-
-func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
