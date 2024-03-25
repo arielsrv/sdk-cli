@@ -69,6 +69,7 @@ func (r FileSystemService) WalkDir(sourceDir string, pattern string, name string
 		return fmt.Errorf("dir %s is not empty", name)
 	}
 
+	fmt.Printf("Creating output directory ... %s\n", name)
 	err = cp.Copy(sourceDir, name)
 	if err != nil {
 		return err

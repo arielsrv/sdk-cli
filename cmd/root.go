@@ -3,6 +3,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -42,24 +43,20 @@ var listCmd = &cobra.Command{
 // newCmd represents the new command.
 var newCmd = &cobra.Command{
 	Use:   "new",
-	Short: "Creates a new app from template",
+	Short: "Creates a new app from short template name",
 	Run: func(cmd *cobra.Command, args []string) {
-		templateName, err := cmd.Flags().GetString("template")
-		if err != nil {
-			log.Fatal(err)
+		if len(args) == 0 {
+			fmt.Println("Please provide a short template name")
+			return
 		}
-
-		appName, err := cmd.Flags().GetString("app-name")
-		if err != nil {
-			log.Fatal(err)
-		}
-
 		serviceTemplate := container.Provide[services.TemplateService]()
-
-		err = serviceTemplate.CreateTemplate(templateName, appName)
+		template, err := serviceTemplate.GetTemplate(args[0])
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("Template %s not found\n", args[0])
+			fmt.Printf("Please execute sdk-cli list to see available templates\n")
+			return
 		}
+		fmt.Printf("Template %s found, creating ...\n", template.Name)
 	},
 }
 
@@ -68,22 +65,25 @@ func Execute() {
 	templates := serviceTemplate.GetTemplates()
 	for i := range templates {
 		template := templates[i]
+		var appName string
 		templateCmd := &cobra.Command{
-			Use:   template.ShortName,
-			Short: template.Description,
+			Use: template.ShortName,
 			Run: func(cmd *cobra.Command, args []string) {
-				appName, err := cmd.Flags().GetString("app-name")
+				fmt.Printf("Template %s found, creating ...\n", template.ShortName)
+				err := serviceTemplate.CreateTemplate(template.ShortName, appName)
 				if err != nil {
 					log.Fatal(err)
 				}
-
-				err = serviceTemplate.CreateTemplate(template.ShortName, appName)
-				if err != nil {
-					log.Fatal(err)
-				}
+				fmt.Printf("Template %s created\n", appName)
+				fmt.Printf("Please execute cd %s\n", appName)
+				fmt.Println()
 			},
 		}
-		newCmd.PersistentFlags().String("app-name", "", "an app name to create from template and put in target dir")
+		templateCmd.PersistentFlags().StringVarP(&appName, "app-name", "a", "", "an app name to create from template and put in target dir")
+		err := templateCmd.MarkPersistentFlagRequired("app-name")
+		if err != nil {
+			log.Fatal(err)
+		}
 		newCmd.AddCommand(templateCmd)
 	}
 
