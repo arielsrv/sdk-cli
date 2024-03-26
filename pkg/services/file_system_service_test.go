@@ -16,8 +16,8 @@ func TestFileSystemService_Walk(t *testing.T) {
 	gitLabService := services.NewGitLabService()
 
 	path, err := gitLabService.Clone(&model.Template{
-		RepositoryURL: "https://github.com/jqlang/jq",
-		Tag:           "jq-1.7.1",
+		RepositoryURL: "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/go-sdk-config",
+		Tag:           "v0.0.9",
 	})
 
 	require.NoError(t, err)

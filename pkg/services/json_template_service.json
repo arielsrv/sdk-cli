@@ -4,7 +4,7 @@
     "short_name": "go-api",
     "description": "Golang API from Backend API SDK w/kubernetes, docker and prometheus monitoring",
     "language": "go",
-    "repository_url": "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git",
+    "repository_url": "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/backend-api-sdk",
     "pattern": "go-api",
     "tag": "v2.3.14"
   }

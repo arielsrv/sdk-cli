@@ -23,7 +23,7 @@ func TestJSONServiceTemplate_GetTemplates(t *testing.T) {
 	assert.Equal(t, "go-api", actual[0].ShortName)
 	assert.Equal(t, "go", actual[0].Language)
 	assert.Equal(t, "go-api", actual[0].Pattern)
-	assert.Equal(t, "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git", actual[0].RepositoryURL)
+	assert.Equal(t, "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/backend-api-sdk", actual[0].RepositoryURL)
 	assert.Equal(t, "v2.3.14", actual[0].Tag)
 }
 
@@ -45,7 +45,7 @@ func TestJSONTemplateService_CreateTemplate(t *testing.T) {
 		ShortName:     "go-api",
 		Description:   "Golang API from Backend API SDK w/kubernetes, docker and prometheus monitoring",
 		Language:      "go",
-		RepositoryURL: "git@gitlab.com:iskaypetcom/digital/sre/tools/dev/backend-api-sdk.git",
+		RepositoryURL: "https://gitlab.com/iskaypetcom/digital/sre/tools/dev/backend-api-sdk",
 		Pattern:       "go-api",
 		Tag:           "v2.3.14",
 	}).Return(&path, nil)

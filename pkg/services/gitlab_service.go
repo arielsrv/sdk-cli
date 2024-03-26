@@ -6,6 +6,7 @@ import (
 	"github.com/arielsrv/sdk-cli/pkg/model"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
+	"github.com/go-git/go-git/v5/plumbing/transport/http"
 )
 
 type GitService interface {
@@ -29,7 +30,12 @@ func (r GitLabService) Clone(template *model.Template) (*string, error) {
 	}
 
 	plainClone, err := git.PlainClone(tempDir, false, &git.CloneOptions{
-		URL: template.RepositoryURL,
+		URL:      template.RepositoryURL,
+		Progress: os.Stdout,
+		Auth: &http.BasicAuth{
+			Username: "master_token",
+			Password: os.Getenv("GITLAB_TOKEN"),
+		},
 	})
 
 	if err != nil {
