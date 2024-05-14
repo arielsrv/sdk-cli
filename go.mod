@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.1
 
 require (
-	github.com/fatih/color v1.16.0
+	github.com/fatih/color v1.17.0
 	github.com/go-git/go-git/v5 v5.11.0
 	github.com/otiai10/copy v1.14.0
 	github.com/rodaine/table v1.1.1
