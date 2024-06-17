@@ -10,7 +10,7 @@ require (
 	github.com/otiai10/copy v1.14.0
 	github.com/rodaine/table v1.1.1
 	github.com/samber/lo v1.39.0
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
 	go.uber.org/dig v1.17.1
 )
