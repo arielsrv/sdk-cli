@@ -8,7 +8,7 @@ require (
 	github.com/fatih/color v1.17.0
 	github.com/go-git/go-git/v5 v5.12.0
 	github.com/otiai10/copy v1.14.0
-	github.com/rodaine/table v1.2.0
+	github.com/rodaine/table v1.3.0
 	github.com/samber/lo v1.46.0
 	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
