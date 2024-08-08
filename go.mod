@@ -12,7 +12,7 @@ require (
 	github.com/samber/lo v1.46.0
 	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
-	go.uber.org/dig v1.17.1
+	go.uber.org/dig v1.18.0
 )
 
 require (
